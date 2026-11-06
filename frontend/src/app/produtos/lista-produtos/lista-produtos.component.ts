@@ -51,9 +51,8 @@ export class ListaProdutosComponent implements OnInit {
         next: (produtos) => {
           this.produtos = produtos;
         },
-        error: () => {
-          this.mensagemErro =
-            "Não foi possível carregar os produtos. Verifique se o Back-End está rodando.";
+        error: (erro: Error) => {
+          this.mensagemErro = `Não foi possível carregar os produtos. ${erro.message}`;
         },
       });
   }
@@ -76,8 +75,8 @@ export class ListaProdutosComponent implements OnInit {
           this.mensagemSucesso = "Produto excluído com sucesso!";
           this.carregarProdutos();
         },
-        error: () => {
-          this.mensagemErro = "Erro ao excluir o produto.";
+        error: (erro: Error) => {
+          this.mensagemErro = `Erro ao excluir o produto. ${erro.message}`;
         },
       });
   }
