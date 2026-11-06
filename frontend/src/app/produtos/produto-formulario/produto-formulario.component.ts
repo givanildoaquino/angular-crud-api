@@ -84,9 +84,8 @@ export class ProdutoFormularioComponent implements OnInit {
             imagem: produto.imagem,
           });
         },
-        error: () => {
-          this.mensagemErro =
-            "Não foi possível carregar os dados do produto para edição.";
+        error: (erro: Error) => {
+          this.mensagemErro = `Não foi possível carregar os dados do produto para edição. ${erro.message}`;
         },
       });
   }
@@ -114,8 +113,8 @@ export class ProdutoFormularioComponent implements OnInit {
             this.mensagemSucesso = "Produto atualizado com sucesso!";
             setTimeout(() => this.router.navigate(["/produtos"]), 1500);
           },
-          error: () => {
-            this.mensagemErro = "Erro ao atualizar o produto.";
+          error: (erro: Error) => {
+            this.mensagemErro = `Erro ao atualizar o produto. ${erro.message}`;
           },
         });
     } else {
@@ -132,8 +131,8 @@ export class ProdutoFormularioComponent implements OnInit {
             this.mensagemSucesso = "Produto cadastrado com sucesso!";
             setTimeout(() => this.router.navigate(["/produtos"]), 1500);
           },
-          error: () => {
-            this.mensagemErro = "Erro ao cadastrar o produto.";
+          error: (erro: Error) => {
+            this.mensagemErro = `Erro ao cadastrar o produto. ${erro.message}`;
           },
         });
     }
