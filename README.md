@@ -1,344 +1,163 @@
-# Atividade: Integração com APIs
+# 🎮 E-commerce de Eletrônicos e Jogos — CRUD Angular + API Node.js
 
-Este projeto é destinado aos alunos da unidade curricular **Interação com APIs**.
+Atividade da unidade curricular **Interação com APIs** (SENAI).
+**Aluno:** Pedro Aquino
 
-O objetivo da atividade é colocar em prática a integração de um projeto Front-End desenvolvido com Angular com uma API Back-End desenvolvida com Node.js e Express, utilizando o `HttpClient`.
+Uma aplicação **Angular** (front-end) integrada a uma **API REST local** em **Node.js + Express** (back-end) para gerenciar os produtos de uma loja de games: cadastro, consulta, atualização e exclusão (CRUD).
 
-O Back-End já está desenvolvido e funcional. O Front-End também já possui as telas, os formulários, as validações e a estilização necessários.
+---
 
-Sua tarefa será implementar a comunicação entre o Front-End e o Back-End por meio de requisições HTTP.
+## 🧰 Tecnologias
 
-## Estrutura do projeto
+| Camada | Tecnologia |
+|---|---|
+| Front-end | Angular, TypeScript, `HttpClient`, Reactive Forms |
+| Estilização | Bootstrap 5 (importado em `frontend/src/styles.css`) |
+| Back-end | Node.js, Express, CORS |
+| Persistência | Arquivo JSON (`backend/data/produtos.json`) |
+| Testes de API | Postman |
 
-O repositório está dividido em duas partes principais:
+---
+
+## 📁 Estrutura
 
 ```text
 angular-crud-api/
-├── frontend/
-└── backend/
+├── backend/                  # API REST (Node.js + Express)
+│   ├── src/server.js         # Rotas do CRUD
+│   └── data/produtos.json    # "Banco de dados"
+├── frontend/                 # Aplicação Angular
+│   └── src/app/produtos/
+│       ├── produto.service.ts         # Chamadas HTTP à API
+│       ├── produto.model.ts           # Interface Produto
+│       ├── lista-produtos/            # Tela de listagem + exclusão
+│       └── produto-formulario/        # Tela de cadastro + edição
+└── postman/
+    ├── angular-crud-api.postman_collection.json   # Coleção de testes
+    └── prints/                                    # Evidências dos testes
 ```
 
-* `frontend/`: aplicação Angular;
-* `backend/`: API desenvolvida com Node.js e Express.
+---
 
-## Pré-requisitos
-
-Antes de iniciar a atividade, verifique se as seguintes ferramentas estão instaladas:
-
-* Node.js, preferencialmente na versão LTS;
-* NPM, instalado junto com o Node.js;
-* Angular CLI;
-* Git;
-* Visual Studio Code;
-* Postman ou Insomnia;
-* Conta no GitHub.
-
-### Verificar o Node.js
-
-Abra o terminal e execute:
+## ✅ Pré-requisitos
 
 ```bash
-node -v
-```
-
-O terminal deverá apresentar a versão instalada.
-
-### Verificar o NPM
-
-Execute:
-
-```bash
+node -v       # v18 ou superior
 npm -v
-```
-
-### Verificar o Angular CLI
-
-Execute:
-
-```bash
-ng version
-```
-
-Caso o Angular CLI ainda não esteja instalado, execute:
-
-```bash
-npm install -g @angular/cli
-```
-
-### Verificar o Git
-
-Execute:
-
-```bash
+ng version    # Angular CLI (instalar: npm install -g @angular/cli)
 git --version
 ```
 
-Caso algum comando não seja reconhecido, instale a ferramenta correspondente antes de continuar.
+Também é necessário ter **VS Code** e **Postman** instalados.
 
-## 1. Realizar o fork do projeto
+---
 
-Acesse o link do repositório disponibilizado pelo professor.
+## ▶️ Como executar
 
-Na página do GitHub, clique no botão **Fork**, localizado na parte superior da tela.
+O back-end e o front-end devem rodar **ao mesmo tempo**, em dois terminais diferentes.
 
-O GitHub criará uma cópia do projeto no seu próprio perfil.
-
-Confirme se o endereço do repositório contém o seu nome de usuário:
-
-```text
-https://github.com/seu-usuario/angular-crud-api
-```
-
-Todas as alterações da atividade deverão ser enviadas para essa cópia.
-
-## 2. Clonar o seu fork
-
-No seu repositório, clique no botão **Code** e copie o endereço HTTPS.
-
-Abra o terminal na pasta em que deseja salvar o projeto e execute:
-
-```bash
-git clone https://github.com/seu-usuario/angular-crud-api.git
-```
-
-Substitua `seu-usuario` pelo seu nome de usuário no GitHub.
-
-Depois, entre na pasta do projeto:
-
-```bash
-cd angular-crud-api
-```
-
-Abra o projeto no Visual Studio Code:
-
-```bash
-code .
-```
-
-## Como executar o projeto
-
-Para que o sistema funcione corretamente, o Back-End e o Front-End deverão ser executados simultaneamente em dois terminais diferentes.
-
-Mantenha os dois terminais abertos durante o desenvolvimento e os testes.
-
-## 3. Executar o Back-End
-
-Abra o primeiro terminal e entre na pasta do Back-End:
+**Terminal 1: Back-end**
 
 ```bash
 cd backend
-```
-
-Instale as dependências:
-
-```bash
 npm install
-```
-
-Inicie o servidor:
-
-```bash
 npm run dev
 ```
 
-O Back-End ficará disponível em:
+A API fica disponível em `http://localhost:3000/api/products`.
 
-```text
-http://localhost:3000
-```
-
-A rota principal dos produtos poderá ser acessada em:
-
-```text
-http://localhost:3000/api/products
-```
-
-Antes de continuar, abra esse endereço no navegador ou faça uma requisição no Postman para verificar se a API está funcionando.
-
-## 4. Executar o Front-End
-
-Abra um segundo terminal na raiz do projeto e entre na pasta do Front-End:
+**Terminal 2: Front-end**
 
 ```bash
 cd frontend
-```
-
-Instale as dependências:
-
-```bash
 npm install
-```
-
-Inicie a aplicação Angular:
-
-```bash
 npm start
 ```
 
-Também é possível executar:
+A aplicação fica disponível em `http://localhost:4200`.
 
-```bash
-ng serve
+---
+
+## 🔌 Endpoints da API
+
+Base URL: `http://localhost:3000`
+
+| Método | Endpoint | Descrição | Sucesso | Erros |
+|---|---|---|---|---|
+| GET | `/api/products` | Lista todos os produtos | `200` | — |
+| GET | `/api/products/:id` | Busca um produto pelo ID | `200` | `404` |
+| POST | `/api/products` | Cadastra um produto | `201` | `400` |
+| PUT | `/api/products/:id` | Atualiza um produto | `200` | `400`, `404` |
+| DELETE | `/api/products/:id` | Exclui um produto | `204` | `404` |
+
+**Corpo (POST/PUT):**
+
+```json
+{
+  "nome": "Controle DualSense",
+  "descricao": "Controle sem fio para PlayStation 5",
+  "categoria": "Acessórios",
+  "preco": 449.90,
+  "imagem": ""
+}
 ```
 
-O Front-End ficará disponível em:
+`nome`, `descricao`, `categoria` e `preco` (> 0) são obrigatórios. Em caso de erro, a API retorna `{ "erro": "mensagem" }`.
 
-```text
-http://localhost:4200
-```
+---
 
-## Endpoints disponíveis no Back-End
+## 🧪 Testes no Postman
 
-A API utiliza o endereço-base:
+1. Abra o Postman → **Import** → selecione `postman/angular-crud-api.postman_collection.json`.
+2. Com o back-end rodando, clique na coleção → **Run collection**.
+3. As requisições rodam em sequência. O ID criado no POST é salvo na variável `{{produtoId}}` e reaproveitado nos passos seguintes.
 
-```text
-http://localhost:3000
-```
+| # | Requisição | Resultado esperado |
+|---|---|---|
+| 1 | GET – Listar produtos | 200 + array |
+| 2 | POST – Cadastrar produto | 201 + produto com `id` |
+| 3 | GET – Buscar por ID | 200 + produto criado |
+| 4 | PUT – Atualizar produto | 200 + dados atualizados |
+| 5 | DELETE – Excluir produto | 204 |
+| 6 | ERRO – Buscar produto inexistente | 404 + `"Produto não encontrado"` |
+| 7 | ERRO – Cadastrar dados inválidos | 400 + campo `erro` |
 
-Os seguintes endpoints estão disponíveis:
+As evidências (prints) estão em [`postman/prints/`](postman/prints/).
 
-| Método | Endpoint            | Descrição                    |
-| ------ | ------------------- | ---------------------------- |
-| GET    | `/api/products`     | Listar todos os produtos     |
-| GET    | `/api/products/:id` | Consultar um produto pelo ID |
-| POST   | `/api/products`     | Cadastrar um produto         |
-| PUT    | `/api/products/:id` | Atualizar um produto         |
-| DELETE | `/api/products/:id` | Excluir um produto           |
+---
 
-O trecho `:id` deverá ser substituído pelo identificador do produto.
+## 🔗 Integração Front-end ↔ Back-end
 
-Exemplo:
+Toda a comunicação fica centralizada no `ProdutoService` (`frontend/src/app/produtos/produto.service.ts`), usando o `HttpClient` do Angular (configurado com `provideHttpClient()` em `app.config.ts`):
 
-```text
-http://localhost:3000/api/products/1
-```
+| Método do serviço | Requisição | Usado em |
+|---|---|---|
+| `listar()` | `GET /api/products` | Tela de listagem |
+| `buscarPorId(id)` | `GET /api/products/:id` | Formulário (modo edição) |
+| `cadastrar(produto)` | `POST /api/products` | Formulário (novo produto) |
+| `atualizar(id, produto)` | `PUT /api/products/:id` | Formulário (modo edição) |
+| `excluir(id)` | `DELETE /api/products/:id` | Botão excluir da listagem |
 
-## Testar os endpoints
+---
 
-Antes de implementar as chamadas no Angular, utilize o Postman ou o Insomnia para testar as rotas da API.
+## 💬 Tratamento de respostas e feedback ao usuário
 
-Durante os testes, observe:
+Todas as chamadas passam pelo método `tratarErro()` do serviço, que transforma a resposta do servidor em uma mensagem clara:
 
-* O método HTTP utilizado;
-* O endereço do endpoint;
-* Os dados enviados no corpo da requisição;
-* O código de status retornado;
-* A mensagem retornada;
-* Os dados recebidos como resposta.
+| Situação | Mensagem exibida |
+|---|---|
+| Sucesso | Alerta **verde**: "Produto cadastrado/atualizado/excluído com sucesso!" |
+| `400` / `404` | Alerta **vermelho** com a mensagem retornada pela API + status (ex.: "Produto não encontrado (status 404)") |
+| Back-end desligado (status `0`) | "Não foi possível conectar ao servidor. Verifique se o Back-End está rodando na porta 3000." |
+| Outros erros | "Erro inesperado no servidor (status X)." |
 
-Essa etapa ajudará a compreender como o Front-End deverá se comunicar com o Back-End.
+Os alertas usam o componente compartilhado `MensagemComponent` com as classes do Bootstrap (`alert-success` / `alert-danger`).
 
-## Parte que deverá ser implementada
+---
 
-Sua tarefa consiste em implementar os métodos do serviço `ProdutoService`, localizado em:
+## 📸 Evidências da aplicação
 
-```text
-frontend/src/app/produtos/produto.service.ts
-```
-
-Você deverá utilizar o `HttpClient` do Angular, que já está configurado e injetado no serviço, para realizar as chamadas aos endpoints da API.
-
-Os métodos que deverão ser implementados são:
-
-```typescript
-listar()
-```
-
-Responsável por realizar:
-
-```text
-GET /api/products
-```
-
-```typescript
-buscarPorId(id)
-```
-
-Responsável por realizar:
-
-```text
-GET /api/products/:id
-```
-
-```typescript
-cadastrar(produto)
-```
-
-Responsável por realizar:
-
-```text
-POST /api/products
-```
-
-```typescript
-atualizar(id, produto)
-```
-
-Responsável por realizar:
-
-```text
-PUT /api/products/:id
-```
-
-```typescript
-excluir(id)
-```
-
-Responsável por realizar:
-
-```text
-DELETE /api/products/:id
-```
-
-As telas, os formulários e os botões já estão prontos. Não será necessário desenvolver um novo Front-End nem alterar o Back-End.
-
-## Enviar as alterações para o GitHub
-
-Depois de concluir e testar a atividade, execute os comandos na raiz do projeto.
-
-Verifique os arquivos modificados:
-
-```bash
-git status
-```
-
-Adicione as alterações:
-
-```bash
-git add .
-```
-
-Crie um commit:
-
-```bash
-git commit -m "Implementa integração do CRUD de produtos"
-```
-
-Envie as alterações para o seu repositório:
-
-```bash
-git push
-```
-
-Depois, acesse o seu repositório no GitHub e confirme se os arquivos foram atualizados.
-
-## Entrega
-
-No Ambiente Virtual de Aprendizagem, envie o link público do seu repositório.
-
-Exemplo:
-
-```text
-https://github.com/seu-usuario/angular-crud-api
-```
-
-Antes de enviar, verifique se:
-
-* O repositório está público;
-* O Back-End executa corretamente;
-* O Front-End executa corretamente;
-* As cinco operações estão integradas;
-* As mensagens de sucesso e erro são exibidas;
-* As alterações foram enviadas para o GitHub.
-
-Bom trabalho!
+<!-- Substitua pelos seus prints -->
+| Listagem | Cadastro | Erro (back-end desligado) |
+|---|---|---|
+| ![Listagem](postman/prints/app-listagem.png) | ![Cadastro](postman/prints/app-cadastro.png) | ![Erro](postman/prints/app-erro.png) |
