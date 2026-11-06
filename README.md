@@ -155,9 +155,22 @@ Os alertas usam o componente compartilhado `MensagemComponent` com as classes do
 
 ---
 
-## 📸 Evidências da aplicação
+## 📸 Evidências
 
-<!-- Substitua pelos seus prints -->
-| Listagem | Cadastro | Erro (back-end desligado) |
-|---|---|---|
-| ![Listagem](postman/prints/app-listagem.png) | ![Cadastro](postman/prints/app-cadastro.png) | ![Erro](postman/prints/app-erro.png) |
+### Testes da API (coleção Postman executada com Newman — 7 requisições, 13 testes, 0 falhas)
+
+![Testes Postman](postman/prints/01-postman-testes.png)
+
+### Aplicação Angular integrada à API
+
+| Listagem (GET) | Cadastro (POST) |
+|---|---|
+| ![Listagem](postman/prints/02-app-listagem.png) | ![Cadastro](postman/prints/03-app-cadastro-sucesso.png) |
+
+| Edição (GET por ID + PUT) | Exclusão (DELETE) |
+|---|---|
+| ![Edição](postman/prints/04-app-edicao-sucesso.png) | ![Exclusão](postman/prints/05-app-exclusao-sucesso.png) |
+
+| Erro 404 (produto inexistente) | Erro de conexão (back-end desligado) |
+|---|---|
+| ![Erro 404](postman/prints/06-app-erro-404.png) | ![Servidor offline](postman/prints/07-app-erro-servidor-offline.png) |
