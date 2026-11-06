@@ -1,0 +1,85 @@
+{
+  "info": {
+    "name": "E-commerce Games - API de Produtos (CRUD)",
+    "description": "Coleção de testes da API local (Node.js + Express) usada pelo front-end Angular.\nBase URL: http://localhost:3000\nRode o back-end com `npm run dev` dentro de /backend antes de executar.\nExecute na ordem (Runner): o ID criado no POST é salvo na variável {{produtoId}} e reutilizado nos passos seguintes.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" },
+    { "key": "produtoId", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "1. GET - Listar produtos",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/products" },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
+        "pm.test('Status 200', () => pm.response.to.have.status(200));",
+        "pm.test('Retorna um array', () => pm.expect(pm.response.json()).to.be.an('array'));"
+      ] } }]
+    },
+    {
+      "name": "2. POST - Cadastrar produto",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/products",
+        "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Controle DualSense\",\n  \"descricao\": \"Controle sem fio para PlayStation 5\",\n  \"categoria\": \"Acessórios\",\n  \"preco\": 449.90,\n  \"imagem\": \"\"\n}" }
+      },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
+        "pm.test('Status 201 Created', () => pm.response.to.have.status(201));",
+        "const p = pm.response.json();",
+        "pm.test('Produto possui id', () => pm.expect(p.id).to.be.a('number'));",
+        "pm.collectionVariables.set('produtoId', p.id);"
+      ] } }]
+    },
+    {
+      "name": "3. GET - Buscar produto por ID",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/products/{{produtoId}}" },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
+        "pm.test('Status 200', () => pm.response.to.have.status(200));",
+        "pm.test('ID confere', () => pm.expect(pm.response.json().id).to.eql(Number(pm.collectionVariables.get('produtoId'))));"
+      ] } }]
+    },
+    {
+      "name": "4. PUT - Atualizar produto",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/products/{{produtoId}}",
+        "body": { "mode": "raw", "raw": "{\n  \"nome\": \"Controle DualSense Edge\",\n  \"descricao\": \"Controle profissional sem fio para PlayStation 5\",\n  \"categoria\": \"Acessórios\",\n  \"preco\": 1299.90,\n  \"imagem\": \"\"\n}" }
+      },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
+        "pm.test('Status 200', () => pm.response.to.have.status(200));",
+        "pm.test('Nome atualizado', () => pm.expect(pm.response.json().nome).to.eql('Controle DualSense Edge'));"
+      ] } }]
+    },
+    {
+      "name": "5. DELETE - Excluir produto",
+      "request": { "method": "DELETE", "url": "{{baseUrl}}/api/products/{{produtoId}}" },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
+        "pm.test('Status 204 No Content', () => pm.response.to.have.status(204));"
+      ] } }]
+    },
+    {
+      "name": "6. ERRO - Buscar produto inexistente (404)",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/products/{{produtoId}}" },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
+        "pm.test('Status 404', () => pm.response.to.have.status(404));",
+        "pm.test('Mensagem de erro', () => pm.expect(pm.response.json().erro).to.eql('Produto não encontrado'));"
+      ] } }]
+    },
+    {
+      "name": "7. ERRO - Cadastrar com dados inválidos (400)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/products",
+        "body": { "mode": "raw", "raw": "{\n  \"nome\": \"\",\n  \"descricao\": \"Sem nome\",\n  \"categoria\": \"Jogos\",\n  \"preco\": 0\n}" }
+      },
+      "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
+        "pm.test('Status 400', () => pm.response.to.have.status(400));",
+        "pm.test('Retorna campo erro', () => pm.expect(pm.response.json()).to.have.property('erro'));"
+      ] } }]
+    }
+  ]
+}
